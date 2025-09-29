@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <h1>Electronics eCommerce Shop With Admin Dashboard in Next.js and Node.js</h1>
 
 <p><b>Electronics eCommerce shop with admin dashboard in Next.js and Node.js</b> is a <b>free eCommerce store</b> developed using Next.js, Node.js and MySQL. The application is completely built from scratch(custom design) and completely responsive.
@@ -234,3 +235,6 @@ npm run dev
 <h3>Admin dashboard - All users page</h3>
 
 ![singitronic admin users page](https://github.com/Kuzma02/Electronics-eCommerce-Shop-With-Admin-Dashboard-NextJS-NodeJS/assets/138793624/e14e8f2c-4377-42fd-b89b-d4868cc11b11)
+=======
+# electoric-ecommerce-datidashi
+>>>>>>> a83f662672061b8205bc6f07e5301c864e7981c3
