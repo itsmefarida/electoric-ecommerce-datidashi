@@ -1,3 +1,0 @@
-- [x] Update password validation in app/register/page.tsx to match server requirements (uppercase, lowercase, digit, special char, not common)
-- [ ] Test registration with strong password
-- [ ] If still issues, check database connection or other errors

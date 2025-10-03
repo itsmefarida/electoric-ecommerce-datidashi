@@ -22,15 +22,6 @@ const RegisterPage = () => {
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
     return emailRegex.test(email);
   };
-
-  const isValidPassword = (password: string) => {
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/;
-    const commonPasswords = [
-      "password", "123456", "qwerty", "abc123", "password123",
-      "admin", "letmein", "welcome", "monkey", "dragon"
-    ];
-    return passwordRegex.test(password) && !commonPasswords.includes(password.toLowerCase());
-  };
   
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -45,14 +36,8 @@ const RegisterPage = () => {
     }
 
     if (!password || password.length < 8) {
-      setError("Password must be at least 8 characters long");
-      toast.error("Password must be at least 8 characters long");
-      return;
-    }
-
-    if (!isValidPassword(password)) {
-      setError("Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character, and not be a common password");
-      toast.error("Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character, and not be a common password");
+      setError("Password is invalid");
+      toast.error("Password is invalid");
       return;
     }
 
