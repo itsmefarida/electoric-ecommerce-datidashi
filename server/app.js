@@ -11,6 +11,7 @@ const orderRouter = require("./routes/customer_orders");
 const slugRouter = require("./routes/slugs");
 const orderProductRouter = require('./routes/customer_order_product');
 const wishlistRouter = require('./routes/wishlist');
+const voucherRoutes = require('./routes/voucher');
 var cors = require("cors");
 
 // Import logging middleware
@@ -60,6 +61,7 @@ app.use(requestLogger);
 // Error logging (only logs 4xx and 5xx responses)
 app.use(errorLogger);
 
+
 const allowedOrigins = [
   'http://localhost:3000',
   'http://localhost:3001',
@@ -108,6 +110,7 @@ app.use("/api/images", uploadLimiter);
 app.use("/api/main-image", uploadLimiter);
 app.use("/api/wishlist", wishlistLimiter);
 app.use("/api/products", productLimiter);
+app.use('/api/vouchers', voucherRoutes);
 
 // Apply stricter rate limiting to authentication-related routes
 app.use("/api/users/email", authLimiter); // For login attempts via email lookup

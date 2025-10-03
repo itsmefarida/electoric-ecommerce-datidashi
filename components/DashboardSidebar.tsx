@@ -15,6 +15,7 @@ import { FaRegUser } from "react-icons/fa6";
 import { FaGear } from "react-icons/fa6";
 import { FaBagShopping } from "react-icons/fa6";
 import { MdCategory } from "react-icons/md";
+import { RiCoupon3Fill } from "react-icons/ri";
 
 
 import Link from "next/link";
@@ -44,6 +45,12 @@ const DashboardSidebar = () => {
         <div className="flex gap-x-2 w-full hover:bg-blue-600 cursor-pointer items-center py-6 pl-5 text-xl text-white">
           <MdCategory className="text-2xl" />{" "}
           <span className="font-normal">Categories</span>
+        </div>
+      </Link>
+      <Link href="/admin/vouchers">
+        <div className="flex gap-x-2 w-full hover:bg-blue-600 cursor-pointer items-center py-6 pl-5 text-xl text-white">
+          <RiCoupon3Fill className="text-2xl" />{" "}
+          <span className="font-normal">Voucher</span>
         </div>
       </Link>
       <Link href="/admin/users">

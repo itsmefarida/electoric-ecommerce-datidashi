@@ -84,3 +84,14 @@ model Wishlist {
   user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
 }
+
+model Voucher {
+  id             String    @id @default(auto()) @map("_id") @db.ObjectId
+  code           String    @unique
+  discountAmount Float
+  discountType   String    @default("percentage") // "percentage" atau "fixed"
+  expiryDate     DateTime?
+  isActive       Boolean   @default(true)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+}
