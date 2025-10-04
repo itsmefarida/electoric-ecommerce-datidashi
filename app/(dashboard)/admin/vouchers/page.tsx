@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { CustomButton } from '@/components'; // Menggunakan komponen kustom Anda
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import { toast } from 'react-toastify';
+import { DashboardSidebar } from '@/components';
 
 interface Voucher {
   id: string;
@@ -53,11 +54,14 @@ export default function VouchersPage() {
   }
 
   return (
-    <div className="p-4 md:p-8 text-black">
+    <div className="bg-white flex justify-start max-w-screen-2xl mx-auto h-full max-xl:flex-col max-xl:h-fit max-xl:gap-y-4">
+      <DashboardSidebar />
+      <div className="flex-1 p-4">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-xl md:text-3xl font-bold">Manajemen Voucher</h1>
         <Link href="/admin/vouchers/new">
           <CustomButton
+            buttonType="button"
             text="Tambah Voucher"
             className="bg-blue-500 hover:bg-blue-600 text-white !py-2 !px-4" // Sesuaikan styling jika perlu
           />
@@ -126,6 +130,7 @@ export default function VouchersPage() {
           </tbody>
         </table>
       </div>
+    </div>
     </div>
   );
 }

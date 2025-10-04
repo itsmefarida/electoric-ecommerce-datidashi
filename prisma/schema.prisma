@@ -86,12 +86,12 @@ model Wishlist {
 }
 
 model Voucher {
-  id             String    @id @default(auto()) @map("_id") @db.ObjectId
-  code           String    @unique
+  id             String   @id @default(cuid())
+  code           String   @unique
   discountAmount Float
-  discountType   String    @default("percentage") // "percentage" atau "fixed"
+  discountType   String
   expiryDate     DateTime?
-  isActive       Boolean   @default(true)
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
+  isActive       Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 }
