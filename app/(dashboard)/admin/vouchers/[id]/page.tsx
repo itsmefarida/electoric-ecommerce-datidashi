@@ -43,7 +43,7 @@ export default function EditVoucherPage() {
           }
         }
       } catch (error) {
-        toast.error('Failed to load voucher data. Ensure the voucher ID is correct.'); // DITERJEMAHKAN
+        toast.error('Failed to load voucher data. Ensure the voucher ID is correct.'); 
       } finally {
         setLoading(false);
       }
@@ -60,15 +60,15 @@ export default function EditVoucherPage() {
 
     // Error Prevention: Client-side validation
     if (!code.trim()) {
-        setValidationError('Voucher code cannot be empty.'); // DITERJEMAHKAN
+        setValidationError('Voucher code cannot be empty.'); 
         return;
     }
     if (isNaN(amount) || amount <= 0) {
-        setValidationError('Discount amount must be a positive number.'); // DITERJEMAHKAN
+        setValidationError('Discount amount must be a positive number.'); 
         return;
     }
     if (discountType === 'percentage' && amount > 100) {
-        setValidationError('Percentage discount cannot be more than 100%.'); // DITERJEMAHKAN
+        setValidationError('Percentage discount cannot be more than 100%.'); 
         return;
     }
     
@@ -85,7 +85,7 @@ export default function EditVoucherPage() {
 
     try {
       await axios.patch(`/api/vouchers/${id}`, data);
-      toast.success('Voucher successfully updated!'); // DITERJEMAHKAN
+      toast.success('Voucher successfully updated!'); 
       router.push('/admin/vouchers');
     } catch (error: any) {
       setIsSubmitting(false);
@@ -95,11 +95,11 @@ export default function EditVoucherPage() {
       // Recognize Error: Logika untuk mendiagnosis error duplikasi kode
       if (apiMessage && (apiMessage.toLowerCase().includes('duplicate') || apiMessage.toLowerCase().includes('unique') || apiMessage.toLowerCase().includes('v001'))) {
           // Jika pesan API mengindikasikan error duplikasi kode
-          setCodeError('This voucher code is already used by another voucher. Please use a unique code.'); // DITERJEMAHKAN
-          toast.error('Failed: Voucher Code not unique.'); // DITERJEMAHKAN
+          setCodeError('This voucher code is already used by another voucher. Please use a unique code.'); 
+          toast.error('Failed: Voucher Code not unique.'); 
       } else {
           // Fallback ke error umum
-          const fallbackMessage = apiMessage || 'Failed to update voucher. Please check the voucher code or other data.'; // DITERJEMAHKAN
+          const fallbackMessage = apiMessage || 'Failed to update voucher. Please check the voucher code or other data.'; 
           toast.error(fallbackMessage);
           setValidationError(fallbackMessage);
       }
@@ -107,7 +107,7 @@ export default function EditVoucherPage() {
   };
   
   if (loading) {
-    return <div className="p-8 text-center">Loading form...</div>; // DITERJEMAHKAN
+    return <div className="p-8 text-center">Loading form...</div>; 
   }
 
   return (
@@ -125,7 +125,7 @@ export default function EditVoucherPage() {
             )}
           <form onSubmit={handleSubmit} className="space-y-5">
               <div>
-                <label htmlFor="code" className="block text-sm font-medium mb-1">Voucher Code</label> {/* DITERJEMAHKAN */}
+                <label htmlFor="code" className="block text-sm font-medium mb-1">Voucher Code</label> 
                 <input 
                     type="text" 
                     id="code" 
@@ -138,17 +138,17 @@ export default function EditVoucherPage() {
                     className={`w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-1 
                                 ${codeError ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-blue-500'}`}
                     required 
-                    title="Voucher code. Change the code carefully as it may affect current users." // DITERJEMAHKAN
+                    title="Voucher code. Change the code carefully as it may affect current users." 
                 />
                 {/* Pesan Error Spesifik di bawah field Kode (Recognize Error) */}
                 {codeError && (
                     <p className="mt-1 text-xs text-red-500">
-                        ⚠️ **Error: {codeError}** {/* DITERJEMAHKAN */}
+                        Error: {codeError}
                     </p>
                 )}
               </div>
               <div>
-                <label htmlFor="discountAmount" className="block text-sm font-medium mb-1">Discount Amount</label> {/* DITERJEMAHKAN */}
+                <label htmlFor="discountAmount" className="block text-sm font-medium mb-1">Discount Amount</label> 
                 <div className="relative flex items-center">
                     {discountType === 'fixed' && (
                       <span className="absolute left-0 pl-3 py-2 text-gray-500 pointer-events-none">
@@ -168,7 +168,7 @@ export default function EditVoucherPage() {
                         }`} 
                         required 
                         min="1"
-                        title={`Enter the discount amount. If Percentage, enter 1-100. If Fixed Amount, enter the Rupiah value.`} // DITERJEMAHKAN
+                        title={`Enter the discount amount. If Percentage, enter 1-100. If Fixed Amount, enter the Rupiah value.`} 
                     />
                     {discountType === 'percentage' && (
                       <span className="absolute right-0 pr-3 py-2 text-gray-500 pointer-events-none">
@@ -178,7 +178,7 @@ export default function EditVoucherPage() {
                 </div>
               </div>
               <div>
-                <label htmlFor="discountType" className="block text-sm font-medium mb-1">Discount Type</label> {/* DITERJEMAHKAN */}
+                <label htmlFor="discountType" className="block text-sm font-medium mb-1">Discount Type</label> 
                 <select 
                     id="discountType" 
                     value={discountType} 
@@ -187,14 +187,14 @@ export default function EditVoucherPage() {
                         if (validationError) setValidationError(null);
                     }} 
                     className="w-full border border-gray-300 rounded-md px-3 py-2"
-                    title="Select whether the discount is a percentage or a fixed amount" // DITERJEMAHKAN
+                    title="Select whether the discount is a percentage or a fixed amount" 
                 >
-                  <option value="percentage">Percentage (%)</option> {/* DITERJEMAHKAN */}
-                  <option value="fixed">Fixed Amount (Rp)</option> {/* DITERJEMAHKAN */}
+                  <option value="percentage">Percentage (%)</option> 
+                  <option value="fixed">Fixed Amount (Rp)</option> 
                 </select>
               </div>
               <div>
-                <label htmlFor="expiryDate" className="block text-sm font-medium mb-1">Expiry Date (Optional)</label> {/* DITERJEMAHKAN */}
+                <label htmlFor="expiryDate" className="block text-sm font-medium mb-1">Expiry Date (Optional)</label> 
                 <input 
                     type="date" 
                     id="expiryDate" 
@@ -204,32 +204,30 @@ export default function EditVoucherPage() {
                         if (validationError) setValidationError(null);
                     }} 
                     className="w-full border border-gray-300 rounded-md px-3 py-2" 
-                    title="Select a new expiry date (Leave blank to remove the expiry date)" // DITERJEMAHKAN
+                    title="Select a new expiry date (Leave blank to remove the expiry date)" 
                 />
               </div>
               <div className="flex items-center pt-2">
                   <Checkbox 
-                    text="Active Voucher" // DITERJEMAHKAN
+                    text="Active Voucher" 
                     stateValue={isActive} 
                     setStateValue={setIsActive} 
-                    id="isActive"
-                    title="Check to activate the voucher, uncheck to deactivate." // DITERJEMAHKAN
                   />
               </div>
               <div className="flex items-center gap-x-4 pt-4">
                 <CustomButton 
                     buttonType="submit" 
-                    text={isSubmitting ? 'Updating...' : 'Update'} // DITERJEMAHKAN
+                    text={isSubmitting ? 'Updating...' : 'Update'} 
                     disabled={isSubmitting} 
                     className="bg-blue-500 hover:bg-blue-600 text-white !py-2 !px-4" 
-                    title="Apply changes to this voucher" // DITERJEMAHKAN
+                    title="Apply changes to this voucher" 
                 />
                 <Link href="/admin/vouchers">
                   <CustomButton 
                     buttonType="button" 
-                    text="Cancel" // DITERJEMAHKAN
+                    text="Cancel" 
                     className="bg-gray-200 hover:bg-gray-300 text-black !py-2 !px-4"
-                    title="Cancel changes and return to the voucher list" // DITERJEMAHKAN
+                    title="Cancel changes and return to the voucher list" 
                   />
                 </Link>
               </div>
