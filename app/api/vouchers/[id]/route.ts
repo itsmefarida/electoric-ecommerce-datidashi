@@ -1,14 +1,17 @@
-// app/api/vouchers/[id]/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 
 const prisma = new PrismaClient();
+
+// Status error code unik (Unique constraint failed) di Prisma
+const PRISMA_ERROR_UNIQUE_CONSTRAINT = 'P2002'; 
 
 /**
  * @swagger
  * /api/vouchers/{id}:
  * get:
- * summary: Mengambil satu voucher berdasarkan ID
+ * summary: Retrieves a single voucher by ID
  * parameters:
  * - in: path
  * name: id
@@ -17,22 +20,23 @@ const prisma = new PrismaClient();
  * type: string
  * responses:
  * 200:
- * description: Berhasil mengambil data voucher.
+ * description: Successfully retrieved voucher data.
  * 404:
- * description: Voucher tidak ditemukan.
+ * description: Voucher not found.
  * 500:
- * description: Gagal mengambil data voucher.
+ * description: Failed to retrieve voucher data due to server error.
  */
 export async function GET(req: NextRequest, context: { params: { id: string } }) {
   const { id } = await context.params;
   try {
     const voucher = await prisma.voucher.findUnique({ where: { id } });
     if (!voucher) {
-      return NextResponse.json({ message: 'Voucher tidak ditemukan' }, { status: 404 });
+      return NextResponse.json({ message: 'Voucher not found' }, { status: 404 });
     }
     return NextResponse.json(voucher, { status: 200 });
   } catch (error) {
-    return NextResponse.json({ message: 'Gagal mengambil data voucher' }, { status: 500 });
+    console.error("GET Voucher Error:", error);
+    return NextResponse.json({ message: 'Failed to retrieve voucher data' }, { status: 500 });
   }
 }
 
@@ -40,7 +44,7 @@ export async function GET(req: NextRequest, context: { params: { id: string } })
  * @swagger
  * /api/vouchers/{id}:
  * patch:
- * summary: Memperbarui voucher berdasarkan ID
+ * summary: Updates a voucher by ID
  * parameters:
  * - in: path
  * name: id
@@ -67,9 +71,11 @@ export async function GET(req: NextRequest, context: { params: { id: string } })
  * type: boolean
  * responses:
  * 200:
- * description: Voucher berhasil diperbarui.
+ * description: Voucher successfully updated.
+ * 409:
+ * description: Conflict, likely due to a duplicate voucher code.
  * 500:
- * description: Gagal memperbarui voucher.
+ * description: Failed to update voucher due to server error.
  */
 export async function PATCH(req: NextRequest, context: { params: { id: string } }) {
   const { id } = await context.params;
@@ -89,7 +95,12 @@ export async function PATCH(req: NextRequest, context: { params: { id: string } 
     });
     return NextResponse.json(updatedVoucher, { status: 200 });
   } catch (error) {
-    return NextResponse.json({ message: 'Gagal memperbarui voucher' }, { status: 500 });
+    if (error instanceof PrismaClientKnownRequestError && error.code === PRISMA_ERROR_UNIQUE_CONSTRAINT) {
+        // Error P2002: Unique constraint failed (kode duplikat)
+        return NextResponse.json({ message: 'Conflict: Voucher code must be unique.' }, { status: 409 });
+    }
+    console.error('Failed to update voucher:', error);
+    return NextResponse.json({ message: 'Failed to update voucher due to a server error.' }, { status: 500 });
   }
 }
 
@@ -97,7 +108,7 @@ export async function PATCH(req: NextRequest, context: { params: { id: string } 
  * @swagger
  * /api/vouchers/{id}:
  * delete:
- * summary: Menghapus voucher berdasarkan ID
+ * summary: Deletes a voucher by ID
  * parameters:
  * - in: path
  * name: id
@@ -106,17 +117,17 @@ export async function PATCH(req: NextRequest, context: { params: { id: string } 
  * type: string
  * responses:
  * 200:
- * description: Voucher berhasil dihapus.
+ * description: Voucher successfully deleted.
  * 500:
- * description: Gagal menghapus voucher.
+ * description: Failed to delete voucher due to server error.
  */
 export async function DELETE(req: NextRequest, context: { params: { id: string } }) {
   const { id } = await context.params;
   try {
     await prisma.voucher.delete({ where: { id } });
-    return NextResponse.json({ message: 'Voucher berhasil dihapus' }, { status: 200 });
+    return NextResponse.json({ message: 'Voucher successfully deleted' }, { status: 200 });
   } catch (error) {
-    console.error('Gagal menghapus voucher:', error);
-    return NextResponse.json({ message: 'Gagal menghapus voucher' }, { status: 500 });
+    console.error('Failed to delete voucher:', error);
+    return NextResponse.json({ message: 'Failed to delete voucher due to a server error.' }, { status: 500 });
   }
 }

@@ -1,40 +1,63 @@
-// *********************
-// Role of the component: Custom button component
-// Name of the component: CustomButton.tsx
-// Developer: Aleksandar Kuzmanovic
-// Version: 1.0
-// Component call: <CustomButton paddingX={paddingX} paddingY={paddingY} text={text} buttonType={buttonType} customWidth={customWidth} textSize={textSize} />
-// Input parameters: CustomButtonProps interface
-// Output: custom button component
-// *********************
-
 import React from "react";
 
 interface CustomButtonProps {
-  paddingX: number;
-  paddingY: number;
   text: string;
-  buttonType: "submit" | "reset" | "button";
-  customWidth: string;
-  textSize: string;
+  buttonType?: "submit" | "reset" | "button";
+  className?: string;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  disabled?: boolean;
+  title?: string;
+  children?: React.ReactNode;
+  variant?: "primary" | "secondary" | "outline"; // VARIANT BARU
 }
 
 const CustomButton = ({
-  paddingX,
-  paddingY,
   text,
-  buttonType,
-  customWidth,
-  textSize
+  buttonType = "button",
+  className = "",
+  onClick,
+  disabled,
+  title,
+  children,
+  variant = "primary", // Default variant
 }: CustomButtonProps) => {
 
+  // Base classes yang konsisten
+  const baseClasses = `
+    uppercase 
+    font-bold 
+    shadow-sm 
+    focus:outline-none 
+    focus:ring-2 
+    focus:ring-blue-500 
+    focus:ring-offset-2
+    transition-colors 
+    duration-200
+    disabled:opacity-50 
+    disabled:cursor-not-allowed
+    px-4 
+    py-2 
+    text-base
+    border
+  `.replace(/\s+/g, ' ').trim();
+
+  // Variant styles
+  const variantClasses = {
+    primary: "bg-blue-500 hover:bg-blue-600 text-white border-transparent",
+    secondary: "bg-gray-500 hover:bg-gray-600 text-white border-transparent", 
+    outline: "bg-white border-gray-300 text-blue-600 hover:bg-gray-100"
+  };
 
   return (
     <button
-      type={`${buttonType}`}
-      className={`${customWidth !== "no" && `w-${customWidth}`} uppercase bg-white px-${paddingX} py-${paddingY} text-${textSize} border border-black border-gray-300 font-bold text-blue-600 shadow-sm hover:bg-black hover:bg-gray-100 focus:outline-none focus:ring-2`}
+      type={buttonType}
+      onClick={onClick}
+      disabled={disabled}
+      title={title}
+      className={`${baseClasses} ${variantClasses[variant]} ${className}`}
     >
       {text}
+      {children}
     </button>
   );
 };
