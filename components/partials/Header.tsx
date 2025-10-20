@@ -11,14 +11,14 @@
 "use client";
 import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import HeaderTop from "./HeaderTop";
+import HeaderTop from "../HeaderTop";
 import Image from "next/image";
-import SearchInput from "./SearchInput";
+import SearchInput from "../SearchInput";
 import Link from "next/link";
 import { FaBell } from "react-icons/fa6";
 
-import CartElement from "./CartElement";
-import HeartElement from "./HeartElement";
+import CartElement from "../CartElement";
+import HeartElement from "../HeartElement";
 import { signOut, useSession } from "next-auth/react";
 import toast from "react-hot-toast";
 import { useWishlistStore } from "@/app/_zustand/wishlistStore";
